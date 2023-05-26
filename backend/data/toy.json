@@ -1,0 +1,23 @@
+[
+  {
+    "title": "nhg",
+    "price": 4,
+    "labels": [],
+    "inStock": true,
+    "_id": "DbOHw"
+  },
+  {
+    "title": "",
+    "price": 0,
+    "labels": [],
+    "inStock": true,
+    "_id": "xIh1q"
+  },
+  {
+    "title": "ilan",
+    "price": 31,
+    "labels": [],
+    "inStock": true,
+    "_id": "xfWlM"
+  }
+]
