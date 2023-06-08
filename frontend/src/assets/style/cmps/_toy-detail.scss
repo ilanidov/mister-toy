@@ -1,0 +1,11 @@
+.toy-details {
+    display: flex;
+
+
+    .toy-details-info {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -3,13 +3,19 @@ var toys = require('../data/toy.json')
 
 function query(filterBy = {}) {
     let toysToDisplay = toys
-    if (filterBy.title) {
-        const regExp = new RegExp(filterBy.title, 'i')
+    if (filterBy.txt) {
+        const regExp = new RegExp(filterBy.txt, 'i')
         toysToDisplay = toysToDisplay.filter(toy => regExp.test(toy.title))
     }
 
     if (filterBy.maxPrice) {
         toysToDisplay = toysToDisplay.filter(toy => toy.price <= filterBy.maxPrice)
+    }
+
+    if (filterBy.inStock) {
+        if (filterBy.inStock === 'all') toysToDisplay = toys
+        else if(filterBy.inStock === 'inStock')  toysToDisplay = toys.filter(toy => toy.inStock)
+        else  toysToDisplay = toys.filter(toy => !toy.inStock)
     }
 
     return Promise.resolve(toysToDisplay)
@@ -37,6 +43,8 @@ function save(toy, loggedinUser) {
         // if (toyToUpdate.owner._id !== loggedinUser._id) return Promise.reject('Not your toy')
         toyToUpdate.title = toy.title
         toyToUpdate.price = toy.price
+        toyToUpdate.inStock = toy.inStock
+        toyToUpdate.labels = [...toy.labels]
     } else {
         toy._id = _makeId()
         // toy.owner = loggedinUser

@@ -1,95 +1,77 @@
-import { asyncStorageService } from './async-storage.service.js'
+import { httpService } from './http.service.js'
 
-const STORAGE_KEY = 'userDB'
-const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
+const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export const userService = {
-    login,
-    logout,
-    signup,
-    getById,
-    getLoggedinUser,
-    addActivity,
-    getEmptyCredentials,
-    editUser
-
+  login,
+  logout,
+  signup,
+  getLoggedinUser,
+  saveLocalUser,
+  query,
+  getById,
+  remove,
+  update,
+  getEmptyCredentials,
 }
 
-// window.us = userService
+window.userService = userService
 
-function getById(userId) {
-    return asyncStorageService.get(STORAGE_KEY, userId)
+function query() {
+  return httpService.get(`user`)
 }
 
-function login({ username, password }) {
-    return asyncStorageService.query(STORAGE_KEY)
-        .then(users => {
-            const user = users.find(user => user.username === username)
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid login')
-        })
+async function getById(userId) {
+  const user = await httpService.get(`user/${userId}`)
+  return user
 }
 
-function signup({ username, password, fullname }) {
-    const user = { username, password, fullname, activities: [] }
-    return asyncStorageService.post(STORAGE_KEY, user)
-        .then(_setLoggedinUser)
+function remove(userId) {
+  return httpService.delete(`user/${userId}`)
 }
 
-function addActivity(activity) {
-    return userService.getById(getLoggedinUser()._id)
-        .then(user => {
-            if (!user._id) return Promise.reject('Not logged in')
-            user.activities.push(activity)
-            return asyncStorageService.put(STORAGE_KEY, user)
-                .then((user) => {
-                    _setLoggedinUser(user)
-                    return user.activities
-                })
-        })
+async function update(user) {
+  await httpService.put(`user/${user._id}`, user)
+  // Handle case in which admin updates other user's details
+  if (getLoggedinUser()._id === user._id) saveLocalUser(user)
+  return user
 }
 
-function editUser(newName) {
-    return userService.getById(getLoggedinUser()._id)
-        .then(user => {
-            if (!user._id) return Promise.reject('Not logged in')
-            user.fullname = newName
-            return asyncStorageService.put(STORAGE_KEY, user)
-                .then((user) => {
-                    _setLoggedinUser(user)
-                    return user.activities // why?
-                })
-        })
-
+async function login(userCred) {
+  const user = await httpService.post('auth/login', userCred)
+  if (user) {
+    return saveLocalUser(user)
+  }
 }
 
+async function signup(userCred) {
+  console.log('vcxvxcvcx')
+  const user = await httpService.post('auth/signup', userCred)
+  console.log(user)
+  return saveLocalUser(user)
+}
 
-function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
-    return Promise.resolve()
+async function logout() {
+  sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+  return await httpService.post('auth/logout')
+}
+
+function saveLocalUser(user) {
+  console.log('user.isAdmin:', user.isAdmin)
+  user = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
+  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+  return user
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
-}
-
-function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, activities: user.activities }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
-    return userToSave
+  return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
 
 function getEmptyCredentials() {
-    return {
-        username: '',
-        password: '',
-        fullname: ''
-    }
+  return {
+    fullname: '',
+    username: '',
+    password: '',
+    isAdmin: false,
+  }
 }
-
-// Test Data
-// userService.signup({username: 'muki', password: 'muki1', fullname: 'Muki Ja'})
-// userService.login({username: 'muki', password: 'muki1'})
-
-
-

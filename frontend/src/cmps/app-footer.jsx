@@ -3,7 +3,7 @@ export function AppFooter() {
  
 
     return (
-        <footer>
+        <footer className="full">
             <h5>Hello</h5>
        
         </footer>

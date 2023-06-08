@@ -1,0 +1,29 @@
+.app-header {
+  background-color: $clr3;
+  color: var(--clr1bg);
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-nav {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  margin-right: 20px;
+  font-family: "Edu VIC WA NT Beginner", cursive;
+  font-weight: bolder;
+
+  >*:hover {
+    font-size: larger;
+    color: blueviolet;
+    transition: 0.5s;
+  }
+}
+
+.main-logo{
+  cursor: pointer;
+}
+

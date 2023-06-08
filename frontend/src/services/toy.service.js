@@ -20,9 +20,9 @@ export const toyService = {
 
 
 
-function query(filterBy = {}) {
+function query(filsort = {}) {
     // return asyncStorageService.query(STORAGE_KEY).then(toys => toys)
-    return httpService.get(BASE_URL, filterBy)
+    return httpService.get(BASE_URL, filsort)
 }
 
 function getById(toyId) {
@@ -38,7 +38,8 @@ function remove(toyId) {
 
 function save(toy) {
     const method = (toy._id) ? 'put' : 'post'
-    return httpService[method](BASE_URL, toy)
+    const toyId = (toy._id) ? toy._id : ''
+    return httpService[method](BASE_URL+toyId, toy)
     // if (toy._id) {
     //     return asyncStorageService.put(STORAGE_KEY, toy)
     // } else {
@@ -47,7 +48,7 @@ function save(toy) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: '', status: '', labels: [] }
+    return { title: '', maxPrice: '', inStock: "", labels: "" }
 }
 
 function getEmptyToy() {
@@ -57,6 +58,8 @@ function getEmptyToy() {
         labels: [],
         createdAt: Date.now(),
         inStock: true,
+        // image:'https://img.freepik.com/free-photo/play-dough-background-with-cute-octopus_23-2149700403.jpg?size=626&ext=jpg&ga=GA1.1.2138063642.1682783269&semt=ais'
+        image: 'https://img.freepik.com/free-vector/hand-drawn-no-photo-sign_23-2149278213.jpg?size=626&ext=jpg&ga=GA1.1.2138063642.1682783269&semt=ais'
     }
 }
 

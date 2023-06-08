@@ -1,0 +1,22 @@
+.main-layout {
+  height: 100%;
+  display: grid;
+  grid-template-columns: $layoutPadding 1fr $layoutPadding;
+  grid-template-rows: $layoutRowPadding 1fr $layoutRowPadding ;
+
+  >* {
+    grid-column: 2;
+  }
+
+  >*.full {
+    grid-column: 1 / -1;
+  }
+
+  >*:not(.full) {
+  }
+
+}
+
+.origin{
+  height: 100%;
+}

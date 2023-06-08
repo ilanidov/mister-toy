@@ -1,12 +1,14 @@
-
+import cover from "../assets/img/bgccover.jpg"
 
 export function HomePage() {
 
- 
+
 
     return (
-        <section>
-    <h1>hello</h1>
+        <section className="home-main">
+
+            <img className="cover-main" src={cover} alt="" />
+
         </section >
     )
 }

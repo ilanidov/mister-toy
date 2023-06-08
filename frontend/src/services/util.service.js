@@ -7,7 +7,8 @@ export const utilService = {
     getDayName,
     getMonthName,
     saveToStorage,
-    loadFromStorage
+    loadFromStorage,
+    debounce
 }
 
 function makeId(length = 6) {
@@ -73,3 +74,11 @@ function loadFromStorage(key) {
     var val = localStorage.getItem(key)
     return JSON.parse(val)
 }
+
+function debounce(func, timeout = 300){
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => { func.apply(this, args) }, timeout)
+    }
+  }

@@ -1,22 +1,32 @@
+import { userService } from '../services/user.service.js'
 
 export const SET_USER = 'SET_USER'
-export const SET_USER_SCORE = 'SET_USER_SCORE'
+export const SET_WATCHED_USER = 'SET_WATCHED_USER'
+export const REMOVE_USER = 'REMOVE_USER'
+export const SET_USERS = 'SET_USERS'
 
 const initialState = {
-    count: 101,
+  user: userService.getLoggedinUser(),
+  users: [],
+  watchedUser: null,
 }
 
 export function userReducer(state = initialState, action) {
-    // console.log('action', action)
-
-    switch (action.type) {
-        // User
-        case SET_USER:
-            return { ...state, loggedinUser: action.user }
-        case SET_USER_SCORE:
-            const user = { ...state.loggedinUser, score: action.newScore }
-            return { ...state, loggedinUser: user }
-        default:
-            return state
-    }
+  switch (action.type) {
+    case SET_USER:
+      return { ...state, user: action.user }
+    case SET_WATCHED_USER:
+      state = { ...state, watchedUser: action.user }
+      break
+    case REMOVE_USER:
+      state = {
+        ...state,
+        users: state.users.filter((user) => user._id !== action.userId),
+      }
+    case SET_USERS:
+      state = { ...state, users: action.users }
+      break
+    default:
+      return { ...state }
+  }
 }

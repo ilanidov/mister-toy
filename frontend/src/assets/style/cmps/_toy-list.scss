@@ -1,0 +1,24 @@
+.toy-list {
+    display: grid;
+    list-style: none;
+    gap: 10px;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: repeat(5, 1fr);
+
+    .card-btns {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background-color: lightpink;
+
+        .add-cart-btn {
+            background-color: lightblue;
+        }
+
+        .remove-btn {
+            background-color: lightcoral;
+        }
+    }
+
+}

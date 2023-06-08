@@ -1,0 +1,56 @@
+.toy-card {
+    // height: 300px;
+    height: 100%;
+    width: 100%;
+    // width: 150px;
+    background-color: $clr2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    justify-content: space-between;
+
+    h4 {
+        height: 5px;
+        padding-top: 2px;
+        margin-top: 2px;
+        font-size: larger;
+    }
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    &:hover .add-cart-btn {
+        color: rgb(18, 198, 45);
+        align-self: center;
+        justify-self: center;
+        // translate: 100%;
+        transition: 0.54s;
+    }
+
+    .toy-card-info{
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        height: 40px;
+        align-items: center;
+        font-weight: bold;
+    }
+
+    // .detail-btn {
+    //     justify-self: end;
+    //     padding-bottom: 2px;
+    //     margin-bottom: 5px;
+    //     border-radius: 25px;
+    //     background-color: rgb(221, 164, 95);
+
+    //     &:hover{
+    //         cursor: pointer;
+    //         font-weight: bold;
+    //         transition: 0.5s;
+    //         background-color: aquamarine;
+    //     }
+    // }
+}
